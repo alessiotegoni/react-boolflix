@@ -1,24 +1,10 @@
-import { useMovies } from "../context/MoviesProvider";
-import { useTvSeries } from "../context/TvSeriesProvider";
+import { useTBDB } from "../context/TMDBProvider";
 
-export default function GenresSelect({ genres, type }) {
-  const { getSeries } = useTvSeries();
-  const { getMovies } = useMovies();
+export default function GenresSelect({ type }) {
+  const { genres, getDiscover } = useTBDB(type);
 
-  const handleChange = (e) => {
-    const genreId = e.target.value;
-
-    switch (type) {
-      case "movie":
-        getMovies(genreId);
-        break;
-      case "tv":
-        getSeries(genreId);
-        break;
-      default:
-        console.error(`${type} is't a valid type`);
-    }
-  };
+  const handleChange = (e) =>
+    getDiscover(type, { with_genres: e.target.value });
 
   return (
     <select
@@ -26,8 +12,8 @@ export default function GenresSelect({ genres, type }) {
       aria-label="Default select example"
       onChange={handleChange}
     >
-      <option>All</option>
-      {genres.map((genre) => (
+      <option value="">All</option>
+      {genres?.map((genre) => (
         <option key={genre.id} value={genre.id}>
           {genre.name}
         </option>

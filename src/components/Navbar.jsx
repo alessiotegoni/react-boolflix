@@ -1,28 +1,21 @@
 import { XIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useMovies } from "../context/MoviesProvider";
-import { useTvSeries } from "../context/TvSeriesProvider";
 import { useState } from "react";
+import { useTBDB } from "../context/TMDBProvider";
 
 export default function Navbar() {
-  const { searchMovies, getMovies } = useMovies();
-  const { searchSeries, getSeries } = useTvSeries();
+  const { getSearch, getDiscover } = useTBDB();
 
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search) {
-      searchMovies(search);
-      searchSeries(search);
+      getSearch(["movie", "tv"], { query: search });
     }
   };
 
-  const handleClick = () => {
-    setSearch("");
-    getMovies();
-    getSeries();
-  };
+  const handleClick = () => getDiscover(["movie", "tv"]);
 
   return (
     <nav className="navbar bg-body-tertiary">

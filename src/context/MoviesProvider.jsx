@@ -7,6 +7,17 @@ export default function MoviesProvider({ children }) {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
 
+  const getMovies = async (with_genres = []) => {
+    try {
+      const { data } = await movieApi.get("/discover/movie", {
+        params: { with_genres },
+      });
+      setMovies(data.results);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const searchMovies = async (query) => {
     try {
       const { data } = await movieApi.get("/search/movie", {
@@ -28,11 +39,12 @@ export default function MoviesProvider({ children }) {
   };
 
   useEffect(() => {
-    getGenres()
-  }, [])
+    getMovies();
+    getGenres();
+  }, []);
 
   return (
-    <MoviesContext.Provider value={{ movies, searchMovies, genres }}>
+    <MoviesContext.Provider value={{ movies, getMovies, searchMovies, genres }}>
       {children}
     </MoviesContext.Provider>
   );

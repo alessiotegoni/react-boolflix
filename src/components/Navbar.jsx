@@ -5,8 +5,8 @@ import { useTvSeries } from "../context/TvSeriesProvider";
 import { useState } from "react";
 
 export default function Navbar() {
-  const { searchMovies } = useMovies();
-  const { searchSeries } = useTvSeries();
+  const { searchMovies, getMovies } = useMovies();
+  const { searchSeries, getSeries } = useTvSeries();
 
   const [search, setSearch] = useState("");
 
@@ -20,6 +20,8 @@ export default function Navbar() {
 
   const handleClick = () => {
     setSearch("");
+    getMovies();
+    getSeries();
   };
 
   return (

@@ -3,16 +3,16 @@ import { movieApi } from "../configs/api";
 
 const MoviesContext = createContext();
 
-export default function MoviesProvider({ children }) {
-  const [movies, setMovies] = useState([]);
+export default function TvSeriesProvider({ children }) {
+  const [series, setSeries] = useState([]);
   const [genres, setGenres] = useState([]);
 
-  const searchMovies = async (query) => {
+  const searchSeries = async (query) => {
     try {
-      const { data } = await movieApi.get("/search/movie", {
+      const { data } = await movieApi.get("/search/tv", {
         params: { query },
       });
-      setMovies(data.results);
+      setSeries(data.results);
     } catch (err) {
       console.error(err);
     }
@@ -20,7 +20,7 @@ export default function MoviesProvider({ children }) {
 
   const getGenres = async () => {
     try {
-      const { data } = await movieApi.get("/genre/movie/list");
+      const { data } = await movieApi.get("/genre/tv/list");
       setGenres(data.genres);
     } catch (err) {
       console.error(err);
@@ -28,20 +28,20 @@ export default function MoviesProvider({ children }) {
   };
 
   useEffect(() => {
-    getGenres()
-  }, [])
+    getGenres();
+  }, []);
 
   return (
-    <MoviesContext.Provider value={{ movies, searchMovies, genres }}>
+    <MoviesContext.Provider value={{ series, searchSeries, genres }}>
       {children}
     </MoviesContext.Provider>
   );
 }
 
-export const useMovies = () => {
+export const useTvSeries = () => {
   const context = useContext(MoviesContext);
   if (!context)
-    throw new Error("UseMovies must be used inside of MoviesProvider");
+    throw new Error("UseTvSeris must be used inside of TvSeriesProvider");
 
   return context;
 };

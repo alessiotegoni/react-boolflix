@@ -3,3 +3,22 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+.nav-input {
+  margin-right: .5rem;
+  padding-right: 2rem !important;
+}
+
+.x-icon {
+  position: absolute;
+  right: .5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: red;
+}
+
+.categories-select {
+  min-width: 150px;
+  width: fit-content !important;
+}

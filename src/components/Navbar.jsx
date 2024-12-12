@@ -6,34 +6,35 @@ import { useTBDB } from "../context/TMDBProvider";
 export default function Navbar() {
   const { getSearch, getDiscover } = useTBDB();
 
-  const [search, setSearch] = useState("");
+  const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (search) {
-      getSearch(["movie", "tv"], { query: search });
-    }
+    if (input) getSearch(["movie", "tv"], { query: input });
   };
 
-  const handleClick = () => getDiscover(["movie", "tv"]);
+  const handleClick = () => {
+    getDiscover(["movie", "tv"]);
+    setInput("");
+  };
 
   return (
     <nav className="navbar bg-body-tertiary">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand text-danger fs-2">
+        <Link to="/" className="navbar-brand text-danger fs-2 fw-bold">
           Boolflix
         </Link>
-        <form className="d-flex" role="search" onSubmit={handleSubmit}>
+        <form className="d-flex" role="input" onSubmit={handleSubmit}>
           <div className="d-flex position-relative">
             <input
               className="form-control nav-input"
               type="text"
               placeholder="Search"
               aria-label="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value.trim())}
+              value={input}
+              onChange={(e) => setInput(e.target.value.trim())}
             />
-            {!!search && (
+            {!!input && (
               <XIcon
                 size={20}
                 absoluteStrokeWidth

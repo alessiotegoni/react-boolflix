@@ -54,10 +54,10 @@ export const useTBDB = (type) => {
   const { discover, genres, ...restValues } = useContext(TBDBContext);
   if (!discover) throw new Error("UsTMDB must be used inside of TMDBProvider");
 
-  console.log(discover, genres);
+  // console.log(discover, genres);
 
   return {
-    [type]: discover[type],
+    results: discover[type],
     genres: genres[type],
     ...restValues,
   };
